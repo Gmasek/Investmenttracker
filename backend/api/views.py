@@ -1,37 +1,34 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics
-from .serializers import UserSerializer,AssetSerialiser
+from .serializers import UserSerializer, AssetSerializer
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from .models import Asset
 from .helpers.get_datafromApi import getSimplePricedata
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-# Create your views here.
-
-
-class AssetListingView(generics.ListCreateAPIView):
-    serialiser_class = AssetSerialiser
+class AssetListCreate(generics.ListCreateAPIView):
+    serializer_class = AssetSerializer
     permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
         user = self.request.user
-        return Asset.objects.filter(user=user)
+        return Asset.objects.filter(owner=user)
     
-    def create_new(self,serialiser):
-        if serialiser.isvalid():
-            serialiser.save(user=self.request.user)
+    def perform_create(self,serializer):
+        if serializer.is_valid():
+            serializer.save(owner=self.request.user)
         else:
-            print(serialiser.errors)    
+            print(serializer.errors)
             
-class RemoveAssetFromList(generics.DestroyAPIView):
-    serialiser_class = AssetSerialiser
+class AssetDelete(generics.DestroyAPIView):
+    serializer_class = AssetSerializer
     permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
         user = self.request.user
-        return Asset.objects.filter(user=user)
+        return Asset.objects.filter(owner=user)
     
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -43,7 +40,7 @@ def returnPriceInfo(request):
     if request.method == "POST":
         try: 
             request_data = json.loads(request.body)
-            asset_data = list(getSimplePricedata(request_data.get("ticker"),request_data.get("window"),request_data.get("field")))
+            asset_data = list(getSimplePricedata(request_data.get("ticker")))
             return JsonResponse({"result":asset_data},status = 200)
     
         except json.JSONDecodeError:
