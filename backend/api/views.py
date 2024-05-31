@@ -41,7 +41,7 @@ def returnPriceInfo(request):
         try: 
             request_data = json.loads(request.body)
             asset_data = list(getSimplePricedata(request_data.get("ticker")))
-            return JsonResponse({"result":asset_data},status = 200)
+            return JsonResponse({"data":asset_data},status = 200)
     
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON'}, status=400)

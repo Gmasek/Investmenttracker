@@ -42,7 +42,7 @@ function Home(){
         ).catch((err)=> alert(err))
         
     }
-
+    
     return (
         <div>
             <div>
