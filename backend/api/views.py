@@ -40,7 +40,9 @@ def returnPriceInfo(request):
     if request.method == "POST":
         try: 
             request_data = json.loads(request.body)
-            asset_data = list(getSimplePricedata(request_data.get("ticker")))
+            asset_data = list(getSimplePricedata(request_data.get("ticker"),
+                                                 request_data.get("daysback"),
+                                                 request_data.get("column")))
             return JsonResponse({"data":asset_data},status = 200)
     
         except json.JSONDecodeError:
