@@ -43,6 +43,7 @@ def returnPriceInfo(request):
             asset_data = list(getSimplePricedata(request_data.get("ticker"),
                                                  request_data.get("daysback"),
                                                  request_data.get("column")))
+            
             return JsonResponse({"data":asset_data},status = 200)
     
         except json.JSONDecodeError:
@@ -51,3 +52,6 @@ def returnPriceInfo(request):
             return JsonResponse({'error': 'Missing input(s)'}, status=400)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
+
+    
