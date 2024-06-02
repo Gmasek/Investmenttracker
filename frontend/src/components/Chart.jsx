@@ -34,7 +34,7 @@ function SimpleLineChart(ticker){
         .then((res)=>res.data).then((data)=>setData(data));
  
     }
-
+    const format_item = (tick) => `$${tick.toLocaleString()}`
 
     console.log(price_data)
     
@@ -67,7 +67,7 @@ function SimpleLineChart(ticker){
             <LineChart data={price_data.data.map((value, index) => ({ index, value }))}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="index" />
-              <YAxis />
+              <YAxis tickFormatter={format_item}/>
               <Tooltip />
               <Legend />
               <Line type="monotone" dataKey="value" stroke="#8884d8" />

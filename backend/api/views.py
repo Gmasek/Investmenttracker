@@ -4,7 +4,7 @@ from rest_framework import generics
 from .serializers import UserSerializer, AssetSerializer
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from .models import Asset
-from .helpers.get_datafromApi import getSimplePricedata
+from .helpers.get_datafromApi import getSimplePricedata ,getCurrentPrice
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -54,4 +54,17 @@ def returnPriceInfo(request):
         return JsonResponse({'error': 'Invalid request method'}, status=405)
     
 
-    
+@csrf_exempt
+def FetchCurrentPrice(request):
+    if request.method == "POST":
+        try:
+            request_data = json.loads(request.body)
+            current_price = getCurrentPrice(request_data.get("ticker"))
+            
+            return JsonResponse({"data":current_price},status = 200)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except KeyError:
+            return JsonResponse({'error': 'Missing input(s)'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)

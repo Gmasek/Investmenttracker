@@ -10,3 +10,9 @@ def getSimplePricedata(ticker:str,daysback=30,column="Open")->list:
     stock_data = pd.DataFrame(stock_data)
     stock_data[column] = np.round(stock_data[column],3)
     return pd.array(stock_data[column]).astype(float)
+
+
+def getCurrentPrice(ticker:str):
+    stock = yf.Ticker(ticker)
+    return stock.info["currentPrice"]
+
