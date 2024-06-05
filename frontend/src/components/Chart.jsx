@@ -23,11 +23,14 @@ function SimpleLineChart(ticker){
     },[])
    
     const stock_data =(ticker)=>{
-         api.post("api/getasset/",{ticker:ticker.ticker,daysback:daysback,column:column})
-         .then((res)=>res.data)
-         .then((data)=>setData(data))
-         .catch((err)=>console.log(err))
-    }
+        
+        api.post("api/getasset/",{ticker:ticker.ticker,daysback:daysback,column:column})
+        .then((res)=>res.data)
+        .then((data)=>setData(data))
+        .catch((err)=>console.log(err))
+    
+        
+   }
     const get_specificData = (e) =>{
         e.preventDefault();
         api.post("api/getasset/",{ticker:ticker.ticker,daysback:daysback,column:column})
@@ -57,6 +60,7 @@ function SimpleLineChart(ticker){
                     id="daysback"
                     onChange={(e)=>setDaysback(parseInt(e.target.value))}/>
                     <br/>
+                    
                     <input type="submit" value="Submit"></input>
                 </form>
             </div>

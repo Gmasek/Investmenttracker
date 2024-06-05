@@ -35,12 +35,13 @@ function Home(){
         e.preventDefault();
         api.post("api/assets/",{ticker:ticker, qty:qty}).then((res) =>
         {
-            if (res.status == 201) alert("Note Created");
-            else alert("Note Creation failed");
+            if (res.status == 201) alert("Asset Added to watchlist");
+            else alert("Asset addition failed");
             getAssets();
         }
         ).catch((err)=> alert(err))
-        
+        setTicker("");
+        setQty('');
     }
     
     return (
@@ -61,6 +62,7 @@ function Home(){
                 type="text" 
                 name="ticker" 
                 id="ticker" 
+                value={ticker}
                 required 
                 onChange={(e)=>setTicker(e.target.value)} />
                 <br/>
