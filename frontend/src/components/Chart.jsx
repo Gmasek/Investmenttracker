@@ -14,7 +14,7 @@ import api from "../api";
 function SimpleLineChart(ticker){
     const [price_data,setData] = useState(null)
     const [daysback,setDaysback] = useState(30)
-    const [column,setColumn] = useState("Open")
+    const [column,setColumn] = useState([])
 
 
 
@@ -32,12 +32,17 @@ function SimpleLineChart(ticker){
         
    }
     const get_specificData = (e) =>{
+        console.log(column)
         e.preventDefault();
         api.post("api/getasset/",{ticker:ticker.ticker,daysback:daysback,column:column})
         .then((res)=>res.data).then((data)=>setData(data));
  
     }
     const format_item = (tick) => `$${tick.toLocaleString()}`
+
+    const handleChecking = (e) => {
+       console.log(e.target.checked ? true: false)
+    }
 
     console.log(price_data)
     
@@ -46,12 +51,21 @@ function SimpleLineChart(ticker){
             <div>
                 <form onSubmit={get_specificData}>
                     <label htmlFor="column">Displayed price data</label>
-                    <input 
-                    type="text"
-                    name="column"
-                    
-                    id="column"
+                    <input type="checkbox" id="open" name="options" 
+                    onClick={(e) =>handleChecking(e)}/>
+                    <label htmlFor="open">Open</label>
+                    <input type="checkbox" id="close" name="options" value="Close"
                     onChange={(e)=>setColumn(e.target.value)}/>
+                    <label htmlFor="close">Close</label>
+                    <input type="checkbox" id="high" name="options" value="High"
+                    onChange={(e)=>setColumn(e.target.value)}/>
+                    <label htmlFor="high">High</label>
+                    <input type="checkbox" id="low" name="options" value="Low"
+                    onChange={(e)=>setColumn(e.target.value)}/>
+                    <label htmlFor="low">Low</label>
+                    <input type="checkbox" id="volume" name="options" value="Volume"
+                    onChange={(e)=>setColumn(e.target.value)}/>
+                    <label htmlFor="volume">Volume</label>
                     <br/>
                     <label htmlFor="daysback">Days back from today</label>
                     <input 
