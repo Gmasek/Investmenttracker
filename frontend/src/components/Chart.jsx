@@ -14,7 +14,7 @@ import api from "../api";
 function SimpleLineChart(ticker){
     const [price_data,setData] = useState(null)
     const [daysback,setDaysback] = useState(30)
-    const [column,setColumn] = useState([])
+    const [column,setColumn] = useState(["Open"])
 
 
 
@@ -40,10 +40,18 @@ function SimpleLineChart(ticker){
     }
     const format_item = (tick) => `$${tick.toLocaleString()}`
 
-    const handleChecking = (e) => {
-       console.log(e.target.checked ? true: false)
+    const addToVis = (val) => {
+        setColumn([...column,val]);
+        console.log(column)
     }
-
+    const removeFromVis = (val) => {
+        const res = column.filter(col => col != val)
+        console.log(res)
+        setColumn(
+            res
+        )
+    }
+    
     console.log(price_data)
     
     return (
@@ -51,20 +59,20 @@ function SimpleLineChart(ticker){
             <div>
                 <form onSubmit={get_specificData}>
                     <label htmlFor="column">Displayed price data</label>
-                    <input type="checkbox" id="open" name="options" 
-                    onClick={(e) =>handleChecking(e)}/>
+                    <input type="checkbox" id="open" name="options" value="Open"
+                    onClick={(e) =>e.target.checked ? addToVis(e.target.value):removeFromVis(e.target.value) }/>
                     <label htmlFor="open">Open</label>
                     <input type="checkbox" id="close" name="options" value="Close"
-                    onChange={(e)=>setColumn(e.target.value)}/>
+                    onChange={(e) =>e.target.checked ? addToVis(e.target.value):removeFromVis(e.target.value) }/>
                     <label htmlFor="close">Close</label>
                     <input type="checkbox" id="high" name="options" value="High"
-                    onChange={(e)=>setColumn(e.target.value)}/>
+                    onChange={(e) =>e.target.checked ? addToVis(e.target.value):removeFromVis(e.target.value) }/>
                     <label htmlFor="high">High</label>
                     <input type="checkbox" id="low" name="options" value="Low"
-                    onChange={(e)=>setColumn(e.target.value)}/>
+                    onChange={(e) =>e.target.checked ? addToVis(e.target.value):removeFromVis(e.target.value) }/>
                     <label htmlFor="low">Low</label>
                     <input type="checkbox" id="volume" name="options" value="Volume"
-                    onChange={(e)=>setColumn(e.target.value)}/>
+                    onChange={(e) =>e.target.checked ? addToVis(e.target.value):removeFromVis(e.target.value) }/>
                     <label htmlFor="volume">Volume</label>
                     <br/>
                     <label htmlFor="daysback">Days back from today</label>
