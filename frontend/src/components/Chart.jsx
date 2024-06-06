@@ -13,49 +13,62 @@ import api from "../api";
 
 function SimpleLineChart(ticker){
     const [price_data,setData] = useState(null)
-    const [daysback,setDaysback] = useState(30)
-    const [column,setColumn] = useState([])
+    const [daysback,setDaysback] = useState(10)
+    const [columns,setColumns] = useState(["Open","Close"])
 
 
 
     useEffect(()=>{
         stock_data(ticker);
+       
     },[])
    
     const stock_data =(ticker)=>{
-        
-        api.post("api/getasset/",{ticker:ticker.ticker,daysback:daysback,column:column})
+        api.post("api/getasset/",{ticker:ticker.ticker,daysback:daysback,column:columns})
         .then((res)=>res.data)
         .then((data)=>setData(data))
         .catch((err)=>console.log(err))
-    
-        
    }
+
     const get_specificData = (e) =>{
-        console.log(column)
+        console.log(columns)
         e.preventDefault();
-        api.post("api/getasset/",{ticker:ticker.ticker,daysback:daysback,column:column})
+        api.post("api/getasset/",{ticker:ticker.ticker,daysback:daysback,column:columns})
         .then((res)=>res.data).then((data)=>setData(data));
  
     }
+
     const format_item = (tick) => `$${tick.toLocaleString()}`
 
    
     const handleColums = (checked,val)=> {
         if(checked){
-            setColumn([...column,val])
+            setColumns([...columns,val])
         }
         else{
-            const res = column.filter(col => col != val)
-            setColumn(
+            const res = columns.filter(col => col != val)
+            setColumns(
                 res
             )
         }
-        console.log(column)
+        console.log(columns)
     }
     
-    
-    
+    const transformData = (data) => {
+        const keys = Object.keys(data);
+        const length = data[keys[0]].length;
+      
+        return Array.from({ length }, (_, index) => {
+          const point = { index: `Point ${index + 1}` };
+          keys.forEach((key) => {
+            point[key] = data[key][index];
+          });
+          return point;
+        });
+      };
+      
+    const chartData = transformData(price_data.data)
+    const keys = Object.keys(chartData[0]).filter(key => key !== 'index');
     return (
         <div>
             <div>
@@ -92,13 +105,16 @@ function SimpleLineChart(ticker){
              {price_data !== null ?
             (
             <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={price_data.data.map((value, index) => ({ index, value }))}>
+            <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="index" />
               <YAxis tickFormatter={format_item}/>
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="value" stroke="#8884d8" />
+              {keys.map((key, index) => (
+                <Line key={index} type="monotone" dataKey={key} stroke={index % 2 === 0 ? "#8884d8" : "#82ca9d"} />
+                ))}
+             
             </LineChart>
             </ResponsiveContainer>):
                 (<p>
