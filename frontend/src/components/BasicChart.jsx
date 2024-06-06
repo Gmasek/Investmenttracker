@@ -10,13 +10,22 @@ import {
     CartesianGrid,
 } from "recharts";
 import api from "../api";
+const colorCodes = {
+    Open: '#FF5733',  
+    Close: '#33FF57', 
+    High: '#3357FF',  
+    Low: '#FF33A1',   
+    SMA5D: '#FF9633',
+    SMA20D : '#AF9633',
+    SMA50D : '#FF9643',
+  };
 
 function SimpleLineChart(ticker){
     const [price_data,setData] = useState(null)
     const [daysback,setDaysback] = useState(10)
-    const [columns,setColumns] = useState(["Open","Close"])
+    const [columns,setColumns] = useState(["Open"])
 
-
+    
 
     useEffect(()=>{
         stock_data(ticker);
@@ -51,7 +60,6 @@ function SimpleLineChart(ticker){
                 res
             )
         }
-        console.log(columns)
     }
     
     const transformData = (data) => {
@@ -59,22 +67,25 @@ function SimpleLineChart(ticker){
         const length = data[keys[0]].length;
       
         return Array.from({ length }, (_, index) => {
-          const point = { index: `Point ${index + 1}` };
+          const point = { index:  `T-${length - index - 1} D` };
           keys.forEach((key) => {
             point[key] = data[key][index];
           });
           return point;
         });
       };
-      
-    const chartData = transformData(price_data.data)
-    const keys = Object.keys(chartData[0]).filter(key => key !== 'index');
+     
+    
+    const chartData = price_data!==null ? transformData(price_data.data) : null
+    const keys = price_data!==null ? Object.keys(chartData[0]).filter(key => key !== 'index') : null
+    console.log(chartData)
+    
     return (
         <div>
             <div>
                 <form onSubmit={get_specificData}>
                     <label htmlFor="column">Displayed price data</label>
-                    <input type="checkbox" id="open" name="options" value="Open"
+                    <input type="checkbox" id="open" name="options" value="Open" 
                     onClick={(e) =>handleColums(e.target.checked,e.target.value) }/>
                     <label htmlFor="open">Open</label>
                     <input type="checkbox" id="close" name="options" value="Close"
@@ -86,16 +97,22 @@ function SimpleLineChart(ticker){
                     <input type="checkbox" id="low" name="options" value="Low"
                     onChange={(e) =>handleColums(e.target.checked,e.target.value) }/>
                     <label htmlFor="low">Low</label>
-                    <input type="checkbox" id="volume" name="options" value="Volume"
+                    <input type="checkbox" id="5DSMA" name="options" value="SMA5D"
                     onChange={(e) =>handleColums(e.target.checked,e.target.value)}/>
-                    <label htmlFor="volume">Volume</label>
+                    <label htmlFor="volume">5DSMA</label>
+                    <input type="checkbox" id="20DSMA" name="options" value="SMA20D"
+                    onChange={(e) =>handleColums(e.target.checked,e.target.value)}/>
+                    <label htmlFor="volume">20DSMA</label>
+                    <input type="checkbox" id="50DSMA" name="options" value="SMA50D"
+                    onChange={(e) =>handleColums(e.target.checked,e.target.value)}/>
+                    <label htmlFor="volume">50DSMA</label>
                     <br/>
-                    <label htmlFor="daysback">Days back from today</label>
+                    <label htmlFor="daysback">Trading days back from today</label>
                     <input 
                     type="number"
                     name="daysback"
                     id="daysback"
-                    onChange={(e)=>setDaysback(parseInt(e.target.value))}/>
+                    onChange={(e)=>setDaysback( parseInt(e.target.value))}/>
                     <br/>
                     
                     <input type="submit" value="Submit"></input>
@@ -112,7 +129,7 @@ function SimpleLineChart(ticker){
               <Tooltip />
               <Legend />
               {keys.map((key, index) => (
-                <Line key={index} type="monotone" dataKey={key} stroke={index % 2 === 0 ? "#8884d8" : "#82ca9d"} />
+                <Line key={index} type="monotone" dataKey={key} stroke={colorCodes[key]} />
                 ))}
              
             </LineChart>

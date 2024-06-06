@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SimpleLineChart from "./Chart";
+import SimpleLineChart from "./BasicChart";
 import api from "../api"
 
 
