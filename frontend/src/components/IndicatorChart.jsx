@@ -111,7 +111,7 @@ function IndicatorChart(ticker){
             </LineChart>
             </ResponsiveContainer>):
                 (<p>
-                    No data
+                    Select the data you want visualised
                 </p>) 
             }
         </div>

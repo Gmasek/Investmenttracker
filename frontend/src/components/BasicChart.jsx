@@ -22,22 +22,22 @@ const colorCodes = {
 
 function SimpleLineChart(ticker){
     const [price_data,setData] = useState(null)
-    const [daysback,setDaysback] = useState(10)
-    const [columns,setColumns] = useState(["Open"])
+    const [daysback,setDaysback] = useState(30)
+    const [columns,setColumns] = useState([])
 
     
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         stock_data(ticker);
        
     },[])
-   
+   // Not sure if we want to load all the data on render
     const stock_data =(ticker)=>{
         api.post("api/getasset/",{ticker:ticker.ticker,daysback:daysback,column:columns})
         .then((res)=>res.data)
         .then((data)=>setData(data))
         .catch((err)=>console.log(err))
-   }
+   }*/
 
     const get_specificData = (e) =>{
         console.log(columns)
@@ -135,7 +135,7 @@ function SimpleLineChart(ticker){
             </LineChart>
             </ResponsiveContainer>):
                 (<p>
-                    No data
+                    Select the data you want visualised
                 </p>) 
             }
         </div>
