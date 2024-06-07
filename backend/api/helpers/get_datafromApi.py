@@ -6,7 +6,7 @@ from datetime import datetime,timedelta
 def getSimplePricedata(ticker:str,columns:list,daysback=30)->list:
     curr_date = datetime.now()
     daysback = int(daysback)
-    window = daysback + 100 #needed for moving avg-es
+    window = daysback + ((daysback//7)*4) #needed for moving avg-es
     stock_data = yf.download(ticker,start=(curr_date-timedelta(window)),end=curr_date)
     stock_data = pd.DataFrame(stock_data)
     stock_data["SMA5D"] = stock_data["Close"].rolling(5).mean()
@@ -17,7 +17,7 @@ def getSimplePricedata(ticker:str,columns:list,daysback=30)->list:
     
     output = dict()
     for col in columns:
-        output[col]=list(np.round(stock_data[col],3))
+        output[col]=list(np.round(stock_data[col].dropna(),3))
 
     return output
 
@@ -29,7 +29,7 @@ def getCurrentPrice(ticker:str):
 def getIndicators(ticker:str,columns:list,daysback = 30)->list:
     curr_date = datetime.now()
     daysback = int(daysback)
-    window = daysback + 100 
+    window = daysback + ((daysback//7)*4)
     df = yf.download(ticker,start=(curr_date-timedelta(window)),end=curr_date)
     df = pd.DataFrame(df)
     df["Move_direct"]= (1-df['Open'] / df["Close"] )*100
@@ -57,7 +57,7 @@ def getIndicators(ticker:str,columns:list,daysback = 30)->list:
     df = df[-daysback:]
     for col in columns:
         
-        output[col]=list(np.round(df[col],3))
+        output[col]=list(np.round(df[col].dropna(),3))
 
     return output
     
