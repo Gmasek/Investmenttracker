@@ -14,7 +14,7 @@ def getSimplePricedata(ticker:str,columns:list,daysback=30)->list:
     stock_data["SMA50D"] = stock_data["Close"].rolling(50).mean()
     stock_data = stock_data.dropna()
     stock_data = stock_data[-daysback:]
-    print(stock_data.describe())
+    
     output = dict()
     for col in columns:
         output[col]=list(np.round(stock_data[col],3))
@@ -56,7 +56,7 @@ def getIndicators(ticker:str,columns:list,daysback = 30)->list:
     output = dict()
     df = df[-daysback:]
     for col in columns:
-        print(type(col))
+        
         output[col]=list(np.round(df[col],3))
 
     return output
@@ -78,5 +78,3 @@ def calc_rsi(data,period):
     rs = ema_up / ema_down
     rsi = 100 - (100/(1+rs))
     return rsi
-
-print(getIndicators("TSLA",["RSI","OBV"]))
