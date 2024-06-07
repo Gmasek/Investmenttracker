@@ -5,5 +5,6 @@ urlpatterns = [
     path("assets/",views.AssetListCreate.as_view(),name="asset-list"),
     path("assets/delete/<int:pk>/",views.AssetDelete.as_view(),name="delete-asset"),
     path("getasset/",views.returnPriceInfo,name="getListData"),
-    path("getcurrprice/",views.FetchCurrentPrice,name="getcurrentprice")
+    path("getcurrprice/",views.FetchCurrentPrice,name="getcurrentprice"),
+    path("getindicators/",views.returnIndicators,name="getindicators")
 ]

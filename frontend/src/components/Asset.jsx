@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SimpleLineChart from "./BasicChart";
 import api from "../api"
-
+import IndicatorChart from "./IndicatorChart";
 
 export default function Asset({asset,onDelete}){
     const [currentPrice,setCurrentPrice] = useState(1)
@@ -25,6 +25,9 @@ export default function Asset({asset,onDelete}){
         </button>
         <div>
             <SimpleLineChart ticker={asset.ticker}/>
+        </div>
+        <div>
+            <IndicatorChart ticker={asset.ticker}/>
         </div>
     </div>
 }
