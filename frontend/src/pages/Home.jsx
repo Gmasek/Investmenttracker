@@ -47,7 +47,7 @@ function Home(){
     return (
         <div>
             <div>
-                <h2 className="m-0.5  text-purple-500">Notes</h2>
+                <h2 >Notes</h2>
             </div>
             <h2>
                 Put new asset on watchlist
