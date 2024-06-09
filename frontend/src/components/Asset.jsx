@@ -20,13 +20,13 @@ export default function Asset({asset,onDelete}){
         <p className="text-2xl">{asset.ticker}</p>
         <p className="text-xl">{asset.qty}</p>
         <p className="text-xl">Current Value:{Math.round(curr_value*100)/100}$</p>
-        <button className="bg-red-300 rounded " onClick={() => onDelete(asset.id)}>
-             Delete
+        <button className="bg-blue-300 hover:bg-red-500 rounded p-1 mt-2" onClick={() => onDelete(asset.id)}>
+             Remove asset
         </button>
-        <div>
+        <div className="mt-5">
             <SimpleLineChart ticker={asset.ticker}/>
         </div>
-        <div>
+        <div className="mt-5">
             <IndicatorChart ticker={asset.ticker}/>
         </div>
     </div>

@@ -20,7 +20,7 @@ const colorCodes = {
 
 function IndicatorChart(ticker){
     const [price_data,setData] = useState(null)
-    const [daysback,setDaysback] = useState(10)
+    const [daysback,setDaysback] = useState(30)
     const [columns,setColumns] = useState([])
 
     const get_specificData = (e) =>{
@@ -63,9 +63,9 @@ function IndicatorChart(ticker){
     console.log(chartData)
     
     return (
-        <div>
-            <div>
-                <form onSubmit={get_specificData}>
+        <div className="p-3 bg-white rounded-3xl ">
+            <div className="w-full">
+                <form onSubmit={get_specificData} className=" p-5 ">
                     <label htmlFor="column">Displayed price data</label>
                     <input type="checkbox" id="MACD" name="MACD" value="MACD" 
                     onClick={(e) =>handleColums(e.target.checked,e.target.value) }/>
@@ -88,10 +88,11 @@ function IndicatorChart(ticker){
                     type="number"
                     name="daysback"
                     id="daysback"
+                    className="rounded  bg-blue-200 text-black pl-2 pr-2"
                     onChange={(e)=>setDaysback( parseInt(e.target.value))}/>
                     <br/>
                     
-                    <input type="submit" value="Submit"></input>
+                    <input type="submit" value="Submit" className="rounded bg-blue-400 text-white  p-2 "></input>
                 </form>
             </div>
 
@@ -110,7 +111,7 @@ function IndicatorChart(ticker){
              
             </LineChart>
             </ResponsiveContainer>):
-                (<p>
+                (<p className="text-xl pl-5">
                     Select the data you want visualised
                 </p>) 
             }

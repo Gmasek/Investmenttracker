@@ -81,12 +81,12 @@ function SimpleLineChart(ticker){
     console.log(chartData)
     
     return (
-        <div className="p-3 bg-white">
+        <div className="p-3 bg-white rounded-3xl ">
             <div className="w-full">
                 <form onSubmit={get_specificData} className=" p-5 ">
                     <label htmlFor="column" className="pb-3">Basic information</label>
                     <input type="checkbox" id="open" name="options" value="Open" 
-                    className="m-2 w-4 h-4 pr-4"
+                    className=""
                     onClick={(e) =>handleColums(e.target.checked,e.target.value) }/>
                     <label htmlFor="open">Open</label>
                     <input type="checkbox" id="close" name="options" value="Close"
@@ -95,7 +95,6 @@ function SimpleLineChart(ticker){
                     <input type="checkbox" id="high" name="options" value="High"
                     onChange={(e) =>handleColums(e.target.checked,e.target.value) }/>
                     <label htmlFor="high">High</label>
-                    
                     <input type="checkbox" id="low" name="options" value="Low"
                     onChange={(e) =>handleColums(e.target.checked,e.target.value) }/>
                     <label htmlFor="low">Low</label>
@@ -116,7 +115,7 @@ function SimpleLineChart(ticker){
                     type="number"
                     name="daysback"
                     id="daysback"
-                    className="rounded  bg-blue-200 text-white"
+                    className="rounded  bg-blue-200 text-black pl-2 pr-2"
                     onChange={(e)=>setDaysback( parseInt(e.target.value))}/>
                     <br/>
                     
@@ -139,7 +138,7 @@ function SimpleLineChart(ticker){
              
             </LineChart>
             </ResponsiveContainer>):
-                (<p>
+                (<p className="text-xl pl-5">
                     Select the data you want visualised
                 </p>) 
             }

@@ -28,7 +28,7 @@ def getCurrentPrice(ticker:str):
 def getIndicators(ticker:str,columns:list,daysback = 30)->list:
     curr_date = datetime.now()
     daysback = int(daysback)
-    window = daysback + ((daysback//7)*4)
+    window = daysback + ((daysback//7)*4) + (25 if "StcOsc" in columns else 0)
     df = yf.download(ticker,start=(curr_date-timedelta(window)),end=curr_date)
     df["Move_direct"]= (1-df['Open'] / df["Close"] )*100
     df["OBV"]=np.where(df['Close'] > df['Close'].shift(1), df['Volume'], np.where(df['Close'] < df['Close'].shift(1), -df['Volume'], 0)).cumsum()

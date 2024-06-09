@@ -45,7 +45,7 @@ function Home(){
     }
     
     return (
-        <div className="p-5 dark:bg-slate-500 bg-gray-100">
+        <div className="p-5 bg-gray-200">
             <div>
                 <h2 className="text-3xl text-center" >Asset List</h2>
             </div>
@@ -58,8 +58,8 @@ function Home(){
                 <label htmlFor="ticker">Title:</label>
                 <br />
                 <input
-                className=" center-block p-4 m-4 bg-gray-200 
-                appearance-none border-2 border-gray-200 
+                className=" center-block p-4 m-4 bg-gray-50 
+                appearance-none border-2 border-gray-300 
                 rounded w-1/2 py-2 px-4 text-gray-700
                 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                 type="text" 
@@ -72,8 +72,8 @@ function Home(){
                 <label htmlFor="qty">StockQty:</label>
                 <br />
                 <input 
-                className=" center-block p-4 m-4 bg-gray-200 
-                appearance-none border-2 border-gray-200 
+                className=" center-block p-4 m-4 bg-gray-50 
+                appearance-none border-2  border-gray-300 
                 rounded w-1/4 py-2 px-4 text-gray-700
                 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                 type="number"
