@@ -16,11 +16,11 @@ export default function Asset({asset,onDelete}){
          .catch((err)=>alert(err))
     }
     const curr_value = asset.qty * currentPrice
-    return <div>
-        <p>{asset.ticker}</p>
-        <p>{asset.qty}</p>
-        <p>Current Value:{curr_value}</p>
-        <button onClick={() => onDelete(asset.id)}>
+    return <div className="p-5 mb-2">
+        <p className="text-2xl">{asset.ticker}</p>
+        <p className="text-xl">{asset.qty}</p>
+        <p className="text-xl">Current Value:{Math.round(curr_value*100)/100}$</p>
+        <button className="bg-red-300 rounded " onClick={() => onDelete(asset.id)}>
              Delete
         </button>
         <div>

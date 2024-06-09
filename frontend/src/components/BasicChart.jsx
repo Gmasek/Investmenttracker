@@ -81,11 +81,12 @@ function SimpleLineChart(ticker){
     console.log(chartData)
     
     return (
-        <div>
-            <div>
-                <form onSubmit={get_specificData}>
-                    <label htmlFor="column">Displayed price data</label>
+        <div className="p-3 bg-white">
+            <div className="w-full">
+                <form onSubmit={get_specificData} className=" p-5 ">
+                    <label htmlFor="column" className="pb-3">Basic information</label>
                     <input type="checkbox" id="open" name="options" value="Open" 
+                    className="m-2 w-4 h-4 pr-4"
                     onClick={(e) =>handleColums(e.target.checked,e.target.value) }/>
                     <label htmlFor="open">Open</label>
                     <input type="checkbox" id="close" name="options" value="Close"
@@ -94,9 +95,12 @@ function SimpleLineChart(ticker){
                     <input type="checkbox" id="high" name="options" value="High"
                     onChange={(e) =>handleColums(e.target.checked,e.target.value) }/>
                     <label htmlFor="high">High</label>
+                    
                     <input type="checkbox" id="low" name="options" value="Low"
                     onChange={(e) =>handleColums(e.target.checked,e.target.value) }/>
                     <label htmlFor="low">Low</label>
+                    <br/>
+                    <label>Simple moving avarages</label>
                     <input type="checkbox" id="5DSMA" name="options" value="SMA5D"
                     onChange={(e) =>handleColums(e.target.checked,e.target.value)}/>
                     <label htmlFor="volume">5DSMA</label>
@@ -112,10 +116,11 @@ function SimpleLineChart(ticker){
                     type="number"
                     name="daysback"
                     id="daysback"
+                    className="rounded  bg-blue-200 text-white"
                     onChange={(e)=>setDaysback( parseInt(e.target.value))}/>
                     <br/>
                     
-                    <input type="submit" value="Submit"></input>
+                    <input type="submit" value="Submit" className="rounded bg-blue-400 text-white  p-2 "></input>
                 </form>
             </div>
 

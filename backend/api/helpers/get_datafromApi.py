@@ -6,13 +6,12 @@ from datetime import datetime,timedelta
 def getSimplePricedata(ticker:str,columns:list,daysback=30)->list:
     curr_date = datetime.now()
     daysback = int(daysback)
-    window = daysback + ((daysback//7)*4) #needed for moving avg-es
+    window = daysback + ((daysback//7)*4) + (75 if "SMA50D" or "SMA20D" or "SMA5D" in columns else 0) #needed for moving avg-es
     stock_data = yf.download(ticker,start=(curr_date-timedelta(window)),end=curr_date)
-    stock_data = pd.DataFrame(stock_data)
+    
     stock_data["SMA5D"] = stock_data["Close"].rolling(5).mean()
     stock_data["SMA20D"] = stock_data["Close"].rolling(20).mean()
     stock_data["SMA50D"] = stock_data["Close"].rolling(50).mean()
-    stock_data = stock_data.dropna()
     stock_data = stock_data[-daysback:]
     
     output = dict()
@@ -31,7 +30,6 @@ def getIndicators(ticker:str,columns:list,daysback = 30)->list:
     daysback = int(daysback)
     window = daysback + ((daysback//7)*4)
     df = yf.download(ticker,start=(curr_date-timedelta(window)),end=curr_date)
-    df = pd.DataFrame(df)
     df["Move_direct"]= (1-df['Open'] / df["Close"] )*100
     df["OBV"]=np.where(df['Close'] > df['Close'].shift(1), df['Volume'], np.where(df['Close'] < df['Close'].shift(1), -df['Volume'], 0)).cumsum()
     df["TR"]=np.maximum(df["High"]-df["Low"],df["High"]-df["Close"].shift(1),df["Close"].shift(1)-df["Low"])
@@ -78,3 +76,4 @@ def calc_rsi(data,period):
     rs = ema_up / ema_down
     rsi = 100 - (100/(1+rs))
     return rsi
+

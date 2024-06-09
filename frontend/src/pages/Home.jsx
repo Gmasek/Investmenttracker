@@ -45,20 +45,23 @@ function Home(){
     }
     
     return (
-        <div>
+        <div className="p-5 dark:bg-slate-500 bg-gray-100">
             <div>
-                <h2 >Notes</h2>
+                <h2 className="text-3xl text-center" >Asset List</h2>
             </div>
-            <h2>
-                Put new asset on watchlist
-            </h2>
+            
             {assets.map((asset)=>(
                 <Asset asset={asset} onDelete={deleteAsset} key={asset.id} />)) 
             }
-            <form onSubmit={createAsset} className="m-5">
+            <h2 className="text-3xl text-center pt-5">Add Asset</h2>
+            <form onSubmit={createAsset} className="flex flex-col items-center m-5 center-block p-6 content-center">
                 <label htmlFor="ticker">Title:</label>
                 <br />
                 <input
+                className=" center-block p-4 m-4 bg-gray-200 
+                appearance-none border-2 border-gray-200 
+                rounded w-1/2 py-2 px-4 text-gray-700
+                leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                 type="text" 
                 name="ticker" 
                 id="ticker" 
@@ -69,6 +72,10 @@ function Home(){
                 <label htmlFor="qty">StockQty:</label>
                 <br />
                 <input 
+                className=" center-block p-4 m-4 bg-gray-200 
+                appearance-none border-2 border-gray-200 
+                rounded w-1/4 py-2 px-4 text-gray-700
+                leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                 type="number"
                 name="qty" 
                 id="content" 
@@ -77,7 +84,9 @@ function Home(){
                 onChange={(e)=>setQty(e.target.value)}>
                 </input>
                 <br />
-                <input type="submit" value="Submit"></input>
+                <input type="submit" value="Submit"
+                className="bg-blue-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded
+                "></input>
             </form>
         </div>
     )

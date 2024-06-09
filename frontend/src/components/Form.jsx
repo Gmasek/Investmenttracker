@@ -32,24 +32,25 @@ function Form({ route, method }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="form-container">
-            <h1>{name}</h1>
+        <form onSubmit={handleSubmit} className="flex flex-col items-center m-5 center-block p-6 content-center">
+            <h1 className="text-3xl text-center">{name}</h1>
             <input
-                className="form-input"
+                className=" center-block p-4 m-4 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-1/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Username"
             />
+            <br/>
             <input
-                className="form-input"
+                className=" p-4 m-4 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-1/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
             />
-            
-            <button className="form-button" type="submit">
+            <br/>
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">
                 {name}
             </button>
         </form>
