@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import api from "../api";
 import Asset from "../components/Asset";
-import { useNavigate,Route,Routes,Navigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import Login from "./Login";
 
 function Home(){
     const [assets,setAssets] = useState([]);
     const [ticker,setTicker] = useState("")
     const [qty, setQty] = useState(0)
+    const navigate = useNavigate();
 
     useEffect(()=>{
         getAssets();
@@ -17,7 +18,7 @@ function Home(){
         api
         .get("/api/assets/")
         .then((res)=>res.data)
-        .then((data)=>{setAssets(data);console.log(data)})
+        .then((data)=>{setAssets(data)})
         .catch((err)=>alert(err))
     };
     
@@ -46,27 +47,19 @@ function Home(){
         setQty('');
     }
     
-    function Logout(){
+    const  Logout= () => {
         localStorage.clear()
-        return <Navigate to="/login" />
+        return navigate("/login")
       }
-    const LogoutButton = () => { 
-
-        const navigate = useNavigate();
-
-        const handleClick = () => {
-            localStorage.clear.then(() =>  <Navigate to="/login" />)
-        }
-      
-    }
+    
 
     return (
         <div className="p-5 bg-gray-200">
             <div>
                 <h2 className="text-3xl text-center" >Asset List</h2>
             </div>
-            <div>
-                <button onClick={LogoutButton}>Logout</button>
+            <div className="flex flex-col items-end m-5 center-end p-6 content-center w-35">
+                <button onClick={Logout} className="bg-blue-300 hover:bg-red-500 rounded p-2 m-2">Logout</button>
             </div>
             
             {assets.map((asset)=>(

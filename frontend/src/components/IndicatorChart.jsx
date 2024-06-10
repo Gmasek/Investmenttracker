@@ -60,7 +60,7 @@ function IndicatorChart(ticker){
     
     const chartData = price_data!==null ? transformData(price_data.data) : null
     const keys = price_data!==null ? Object.keys(chartData[0]).filter(key => key !== 'index') : null
-    console.log(chartData)
+    
     
     return (
         <div className="p-3 bg-white rounded-3xl ">
