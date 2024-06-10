@@ -66,29 +66,34 @@ function IndicatorChart(ticker){
         <div className="p-3 bg-white rounded-3xl ">
             <div className="w-full">
                 <form onSubmit={get_specificData} className=" p-5 ">
-                    <label htmlFor="column">Displayed price data</label>
+                    <label htmlFor="column" className="pb-3 pr-4 ">Displayed price data</label>
                     <input type="checkbox" id="MACD" name="MACD" value="MACD" 
+                    className="pb-3 pr-4 pl-2"
                     onClick={(e) =>handleColums(e.target.checked,e.target.value) }/>
-                    <label htmlFor="MACD">MACD</label>
+                    <label htmlFor="MACD" className="pb-3 pr-4 pl-2">MACD</label>
                     <input type="checkbox" id="StcOsc" name="StcOsc" value="StcOsc"
+                    className="pb-3 pr-4 pl-2"
                     onChange={(e) =>handleColums(e.target.checked,e.target.value) }/>
-                    <label htmlFor="StcOsc">StcOsc</label>
+                    <label htmlFor="StcOsc" className="pb-3 pr-4 pl-2">StcOsc</label>
                     <input type="checkbox" id="OBV" name="OBV" value="OBV"
+                    className="pb-3 pr-4 pl-2"
                     onChange={(e) =>handleColums(e.target.checked,e.target.value) }/>
-                    <label htmlFor="OBV">OBV</label>
+                    <label htmlFor="OBV" className="pb-3 pr-4 pl-2">OBV</label>
                     <input type="checkbox" id="RSI" name="RSI" value="RSI"
+                    className="pb-3 pr-4 pl-2"
                     onChange={(e) =>handleColums(e.target.checked,e.target.value) }/>
-                    <label htmlFor="RSI">RSI</label>
+                    <label htmlFor="RSI" className="pb-3 pr-4 pl-2">RSI</label>
                     <input type="checkbox" id="RSI_volume" name="RSI_volume" value="RSI_volume"
+                    className="pb-3 pr-4 pl-2"
                     onChange={(e) =>handleColums(e.target.checked,e.target.value)}/>
-                    <label htmlFor="RSI_volume">RSI_volume</label>
+                    <label htmlFor="RSI_volume" className="pb-3 pr-4 pl-2">RSI_volume</label>
                     <br/>
-                    <label htmlFor="daysback">Trading days back from today</label>
+                    <label htmlFor="daysback" className="pb-3 pr-4">Trading days back from today</label>
                     <input 
                     type="number"
                     name="daysback"
                     id="daysback"
-                    className="rounded  bg-blue-200 text-black pl-2 pr-2"
+                    className="rounded  bg-gray-200 text-black pl-2 pr-2 w-12"
                     onChange={(e)=>setDaysback( parseInt(e.target.value))}/>
                     <br/>
                     

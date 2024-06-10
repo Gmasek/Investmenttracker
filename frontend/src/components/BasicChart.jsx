@@ -84,38 +84,44 @@ function SimpleLineChart(ticker){
         <div className="p-3 bg-white rounded-3xl ">
             <div className="w-full">
                 <form onSubmit={get_specificData} className=" p-5 ">
-                    <label htmlFor="column" className="pb-3">Basic information</label>
+                    <label htmlFor="column" className="pb-3 pr-4">Basic information</label>
                     <input type="checkbox" id="open" name="options" value="Open" 
-                    className=""
+                    className="pb-3 pr-4"
                     onClick={(e) =>handleColums(e.target.checked,e.target.value) }/>
-                    <label htmlFor="open">Open</label>
+                    <label htmlFor="open" className="pb-3 pr-4 pl-2">Open</label>
                     <input type="checkbox" id="close" name="options" value="Close"
+                    className="pb-3 pr-4 pl-2"
                     onChange={(e) =>handleColums(e.target.checked,e.target.value) }/>
-                    <label htmlFor="close">Close</label>
-                    <input type="checkbox" id="high" name="options" value="High"
+                    <label htmlFor="close" className="pb-3 pr-4 pl-2">Close</label>
+                    <input type="checkbox" id="high" name="options" value="High" 
+                    className="pb-3 pr-4 pl-2"
                     onChange={(e) =>handleColums(e.target.checked,e.target.value) }/>
-                    <label htmlFor="high">High</label>
+                    <label htmlFor="high" className="pb-3 pr-4 pl-2">High</label>
                     <input type="checkbox" id="low" name="options" value="Low"
+                    className="pb-3 pr-4 pl-2"
                     onChange={(e) =>handleColums(e.target.checked,e.target.value) }/>
-                    <label htmlFor="low">Low</label>
+                    <label htmlFor="low" className="pb-3 pr-4 pl-2">Low</label>
                     <br/>
-                    <label>Simple moving avarages</label>
+                    <label className="pb-3 pr-4">Simple moving avarages</label>
                     <input type="checkbox" id="5DSMA" name="options" value="SMA5D"
+                    className="pb-3 pr-4 pl-2"
                     onChange={(e) =>handleColums(e.target.checked,e.target.value)}/>
-                    <label htmlFor="volume">5DSMA</label>
+                    <label htmlFor="volume" className="pb-3 pr-4 pl-2">5DSMA</label>
                     <input type="checkbox" id="20DSMA" name="options" value="SMA20D"
+                    className="pb-3 pr-4 pl-2"
                     onChange={(e) =>handleColums(e.target.checked,e.target.value)}/>
-                    <label htmlFor="volume">20DSMA</label>
+                    <label htmlFor="volume" className="pb-3 pr-4 pl-2">20DSMA</label>
                     <input type="checkbox" id="50DSMA" name="options" value="SMA50D"
+                    className="pb-3 pr-4 pl-2"
                     onChange={(e) =>handleColums(e.target.checked,e.target.value)}/>
-                    <label htmlFor="volume">50DSMA</label>
+                    <label htmlFor="volume" className="pb-3 pr-4 pl-2">50DSMA</label>
                     <br/>
-                    <label htmlFor="daysback">Trading days back from today</label>
+                    <label htmlFor="daysback" className="pb-3 pr-4">Trading days back from today:</label>
                     <input 
                     type="number"
                     name="daysback"
                     id="daysback"
-                    className="rounded  bg-blue-200 text-black pl-2 pr-2"
+                    className="rounded  bg-gray-200 text-black pl-2 pr-2 w-12"
                     onChange={(e)=>setDaysback( parseInt(e.target.value))}/>
                     <br/>
                     

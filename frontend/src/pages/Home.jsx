@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import api from "../api";
 import Asset from "../components/Asset";
+import { useNavigate,Route,Routes,Navigate } from "react-router-dom"
+import Login from "./Login";
 
 function Home(){
     const [assets,setAssets] = useState([]);
@@ -44,10 +46,27 @@ function Home(){
         setQty('');
     }
     
+    function Logout(){
+        localStorage.clear()
+        return <Navigate to="/login" />
+      }
+    const LogoutButton = () => { 
+
+        const navigate = useNavigate();
+
+        const handleClick = () => {
+            localStorage.clear.then(() =>  <Navigate to="/login" />)
+        }
+      
+    }
+
     return (
         <div className="p-5 bg-gray-200">
             <div>
                 <h2 className="text-3xl text-center" >Asset List</h2>
+            </div>
+            <div>
+                <button onClick={LogoutButton}>Logout</button>
             </div>
             
             {assets.map((asset)=>(
