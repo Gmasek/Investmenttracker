@@ -30,6 +30,7 @@ export default function Asset({asset,onDelete,basiccols,indicatorcols}) {
              Remove asset
         </button>
         <div className="mt-5">
+            
             <ChartItem route={"api/getasset/"} ticker={asset.ticker} options={basiccols} />
         </div>
         <div className="mt-5">

@@ -78,7 +78,7 @@ function ChartItem({route,ticker,options,YAxisFormatter}) {
                     <label htmlFor="column" className="pb-3 pr-4">Data to visualise</label>
                     <br/>
                     {options.map((option,index) => (
-                        <Checkbox option={option} onChange={handleColums} id={option} index={index}/>
+                        <Checkbox option={option} onChange={handleColums} id={option} key = {option} index={index}/>
                     ))}
                     <br/>
                     <label htmlFor="daysback" className="pb-3 pr-4">Trading days back from today:</label>
@@ -86,7 +86,8 @@ function ChartItem({route,ticker,options,YAxisFormatter}) {
                     type="number"
                     name="daysback"
                     id="daysback"
-                    className="rounded  bg-gray-200 text-black pl-2 pr-2 w-12"
+                    className="rounded  bg-gray-200 text-black pl-2 pr-2 w-14"
+                    value={daysback}
                     onChange={(e)=>setDaysback( parseInt(e.target.value))}/>
                     <br/>
                     <input type="submit" value="Submit" className="rounded bg-blue-400 text-white  p-2 "></input>
