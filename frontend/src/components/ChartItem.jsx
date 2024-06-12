@@ -26,7 +26,7 @@ const colorCodes = {
 };
 
 
-function ChartItem({route,ticker,options}) {
+function ChartItem({route,ticker,options,YAxisFormatter}) {
     const [price_data,setData] = useState(null)
     const [daysback,setDaysback] = useState(30)
     const [columns,setColumns] = useState([])
@@ -77,9 +77,10 @@ function ChartItem({route,ticker,options}) {
                 <form onSubmit={get_specificData} className=" p-5 ">
                     <label htmlFor="column" className="pb-3 pr-4">Data to visualise</label>
                     <br/>
-                    {options.map((option) => (
-                        <Checkbox option={option} onChange={handleColums} id={option}/>
+                    {options.map((option,index) => (
+                        <Checkbox option={option} onChange={handleColums} id={option} index={index}/>
                     ))}
+                    <br/>
                     <label htmlFor="daysback" className="pb-3 pr-4">Trading days back from today:</label>
                     <input 
                     type="number"

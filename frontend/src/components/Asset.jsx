@@ -20,7 +20,7 @@ export default function Asset({asset,onDelete,basiccols,indicatorcols}) {
    
 
     const curr_value = asset.qty * currentPrice
-    const Cols = ["Open","High","Low","Close"];
+    
     
     return <div className="p-5 mb-2">
         <p className="text-2xl pl-2">{asset.ticker}</p>
