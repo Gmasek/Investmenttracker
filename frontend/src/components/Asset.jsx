@@ -4,15 +4,12 @@ import api from "../api"
 
 import ChartItem from "./ChartItem";
 
-export default function Asset({asset,onDelete}){
+export default function Asset({asset,onDelete,basiccols,indicatorcols}) {
     const [currentPrice,setCurrentPrice] = useState(1)
-    const [basiccols,setbasicCols] = useState([])
-    const [indicatorcols,setIndicatorcols] = useState([])
 
     useEffect(()=>{
         stock_data();
-        getIndicators();
-        getBasiccols();
+       
     },[])
     const stock_data =()=>{
          api.post("api/getcurrprice/",{ticker:asset.ticker})
@@ -20,18 +17,7 @@ export default function Asset({asset,onDelete}){
          .then((data)=>{setCurrentPrice(data.data)})
          .catch((err)=>alert(err))
     }
-    const getIndicators =()=>{
-        api.get("api/getindicatorscols/")
-        .then((res)=>res.data)
-        .then((data)=>setIndicatorcols(data.data))
-        .catch((err)=>alert(err))
-    }
-    const getBasiccols =()=>{
-        api.get("api/getbasiccols/")
-        .then((res)=>res.data)
-        .then((data)=>setbasicCols(data.data))
-        .catch((err)=>alert(err))
-    }
+   
 
     const curr_value = asset.qty * currentPrice
     const Cols = ["Open","High","Low","Close"];
