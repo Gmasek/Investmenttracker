@@ -4,7 +4,7 @@ from rest_framework import generics
 from .serializers import UserSerializer, AssetSerializer
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from .models import Asset
-from .helpers.get_datafromApi import getSimplePricedata ,getCurrentPrice , getIndicators
+from .helpers.get_datafromApi import getSimplePricedata ,getCurrentPrice , getIndicators , getSimplePriceColnames, getIndicatorColnames
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -82,5 +82,19 @@ def returnIndicators(request):
             return JsonResponse({'error': 'Invalid JSON'}, status=400)
         except KeyError:
             return JsonResponse({'error': 'Missing input(s)'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
+    
+@csrf_exempt
+def getBasicColumns(request):
+    if request.method == "GET":
+        return JsonResponse({"data":getSimplePriceColnames()},status = 200)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
+def getIndicatorCols(request):
+    if request.method == "GET":
+        return JsonResponse({"data":getIndicatorColnames()},status = 200)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)

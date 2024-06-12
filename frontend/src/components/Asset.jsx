@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
-import SimpleLineChart from "./BasicChart";
+
 import api from "../api"
-import IndicatorChart from "./IndicatorChart";
+
+import ChartItem from "./ChartItem";
 
 export default function Asset({asset,onDelete}){
     const [currentPrice,setCurrentPrice] = useState(1)
+    const [basiccols,setbasicCols] = useState([])
+    const [indicatorcols,setIndicatorcols] = useState([])
 
     useEffect(()=>{
         stock_data();
+        getIndicators();
+        getBasiccols();
     },[])
     const stock_data =()=>{
          api.post("api/getcurrprice/",{ticker:asset.ticker})
@@ -15,7 +20,22 @@ export default function Asset({asset,onDelete}){
          .then((data)=>{setCurrentPrice(data.data)})
          .catch((err)=>alert(err))
     }
+    const getIndicators =()=>{
+        api.get("api/getindicatorscols/")
+        .then((res)=>res.data)
+        .then((data)=>setIndicatorcols(data.data))
+        .catch((err)=>alert(err))
+    }
+    const getBasiccols =()=>{
+        api.get("api/getbasiccols/")
+        .then((res)=>res.data)
+        .then((data)=>setbasicCols(data.data))
+        .catch((err)=>alert(err))
+    }
+
     const curr_value = asset.qty * currentPrice
+    const Cols = ["Open","High","Low","Close"];
+    
     return <div className="p-5 mb-2">
         <p className="text-2xl pl-2">{asset.ticker}</p>
         <p className="text-xl pl-2">{asset.qty}</p>
@@ -24,10 +44,10 @@ export default function Asset({asset,onDelete}){
              Remove asset
         </button>
         <div className="mt-5">
-            <SimpleLineChart ticker={asset.ticker}/>
+            <ChartItem route={"api/getasset/"} ticker={asset.ticker} options={basiccols} />
         </div>
         <div className="mt-5">
-            <IndicatorChart ticker={asset.ticker}/>
+           <ChartItem route={"api/getindicators/"} ticker={asset.ticker} options={indicatorcols} />
         </div>
     </div>
 }

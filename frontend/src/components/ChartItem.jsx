@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import {
     LineChart,
     ResponsiveContainer,
@@ -10,27 +10,38 @@ import {
     CartesianGrid,
 } from "recharts";
 import api from "../api";
-const colorCodes = {
-    MACD: '#FF5733',  
-    StcOsc: '#33FF57', 
-    OBV: '#3357FF',  
-    RSI: '#FF33A1',   
-    RSI_volume: '#FF9633',
-  };
+import Checkbox from "./Checkbox";
 
-function IndicatorChart(ticker){
+const colorCodes = {
+    1: "#FF5733",  
+    2: "#33FF57",  
+    3: "#3357FF",  
+    4: "#FFFF33",  
+    5: "#FF33FF",  
+    6: "#33FFFF",  
+    7: "#FFA500",  
+    8: "#800080",  
+    9: "#A52A2A",  
+    10: "#000000"  
+};
+
+
+function ChartItem({route,ticker,options}) {
     const [price_data,setData] = useState(null)
     const [daysback,setDaysback] = useState(30)
     const [columns,setColumns] = useState([])
+    
+
+
 
     const get_specificData = (e) =>{
         console.log(columns)
         e.preventDefault();
-        api.post("api/getindicators/",{ticker:ticker.ticker,daysback:daysback,column:columns})
+        api.post(route,{ticker:ticker,daysback:daysback,column:columns})
         .then((res)=>res.data).then((data)=>setData(data));
- 
     }
 
+    const format_item = (tick) => `$${tick.toLocaleString()}`
    
     const handleColums = (checked,val)=> {
         if(checked){
@@ -57,38 +68,19 @@ function IndicatorChart(ticker){
         });
       };
      
-    
     const chartData = price_data!==null ? transformData(price_data.data) : null
     const keys = price_data!==null ? Object.keys(chartData[0]).filter(key => key !== 'index') : null
-    
     
     return (
         <div className="p-3 bg-white rounded-3xl ">
             <div className="w-full">
                 <form onSubmit={get_specificData} className=" p-5 ">
-                    <label htmlFor="column" className="pb-3 pr-4 ">Displayed price data</label>
-                    <input type="checkbox" id="MACD" name="MACD" value="MACD" 
-                    className="pb-3 pr-4 pl-2"
-                    onClick={(e) =>handleColums(e.target.checked,e.target.value) }/>
-                    <label htmlFor="MACD" className="pb-3 pr-4 pl-2">MACD</label>
-                    <input type="checkbox" id="StcOsc" name="StcOsc" value="StcOsc"
-                    className="pb-3 pr-4 pl-2"
-                    onChange={(e) =>handleColums(e.target.checked,e.target.value) }/>
-                    <label htmlFor="StcOsc" className="pb-3 pr-4 pl-2">StcOsc</label>
-                    <input type="checkbox" id="OBV" name="OBV" value="OBV"
-                    className="pb-3 pr-4 pl-2"
-                    onChange={(e) =>handleColums(e.target.checked,e.target.value) }/>
-                    <label htmlFor="OBV" className="pb-3 pr-4 pl-2">OBV</label>
-                    <input type="checkbox" id="RSI" name="RSI" value="RSI"
-                    className="pb-3 pr-4 pl-2"
-                    onChange={(e) =>handleColums(e.target.checked,e.target.value) }/>
-                    <label htmlFor="RSI" className="pb-3 pr-4 pl-2">RSI</label>
-                    <input type="checkbox" id="RSI_volume" name="RSI_volume" value="RSI_volume"
-                    className="pb-3 pr-4 pl-2"
-                    onChange={(e) =>handleColums(e.target.checked,e.target.value)}/>
-                    <label htmlFor="RSI_volume" className="pb-3 pr-4 pl-2">RSI_volume</label>
+                    <label htmlFor="column" className="pb-3 pr-4">Data to visualise</label>
                     <br/>
-                    <label htmlFor="daysback" className="pb-3 pr-4">Trading days back from today</label>
+                    {options.map((option) => (
+                        <Checkbox option={option} onChange={handleColums} id={option}/>
+                    ))}
+                    <label htmlFor="daysback" className="pb-3 pr-4">Trading days back from today:</label>
                     <input 
                     type="number"
                     name="daysback"
@@ -96,7 +88,6 @@ function IndicatorChart(ticker){
                     className="rounded  bg-gray-200 text-black pl-2 pr-2 w-12"
                     onChange={(e)=>setDaysback( parseInt(e.target.value))}/>
                     <br/>
-                    
                     <input type="submit" value="Submit" className="rounded bg-blue-400 text-white  p-2 "></input>
                 </form>
             </div>
@@ -107,11 +98,11 @@ function IndicatorChart(ticker){
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="index" />
-              <YAxis />
+              <YAxis tickFormatter={format_item}/>
               <Tooltip />
               <Legend />
               {keys.map((key, index) => (
-                <Line key={index} type="monotone" dataKey={key} stroke={colorCodes[key]} />
+                <Line key={index} type="monotone" dataKey={key} stroke={colorCodes[index]}  />
                 ))}
              
             </LineChart>
@@ -125,4 +116,4 @@ function IndicatorChart(ticker){
       );
   }
 
-export default IndicatorChart;
+export default ChartItem;
