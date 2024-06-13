@@ -13,35 +13,54 @@ import api from "../api";
 import Checkbox from "./Checkbox";
 
 const colorCodes = {
-    1: "#FF5733",  
-    2: "#33FF57",  
-    3: "#3357FF",  
-    4: "#FFFF33",  
-    5: "#FF33FF",  
-    6: "#33FFFF",  
-    7: "#FFA500",  
-    8: "#800080",  
-    9: "#A52A2A",  
-    10: "#000000"  
+        0: '#FF5733',   // Red-Orange
+        1: '#33FF57',   // Lime Green
+        2: '#3357FF',   // Blue
+        3: '#FF33A1',   // Pink
+        4: '#FFD700',   // Gold
+        5: '#7FFF00',   // Chartreuse
+        6: '#00FFFF',   // Cyan
+        7: '#8A2BE2',   // BlueViolet
+        8: '#FF4500',   // OrangeRed
+        9: '#2E8B57',   // SeaGreen
+        10: '#FF1493',  // DeepPink
+        11: '#4B0082',  // Indigo
+        12: '#FFDAB9',  // PeachPuff
+        13: '#7B68EE',  // MediumSlateBlue
+        14: '#48D1CC',  // MediumTurquoise
+        15: '#ADFF2F',  // GreenYellow
+        16: '#FF69B4',  // HotPink
+        17: '#CD5C5C',  // IndianRed
+        18: '#1E90FF',  // DodgerBlue
+        19: '#00FA9A',  // MediumSpringGreen
+        20: '#FFD700',  // Gold
+        21: '#DC143C',  // Crimson
+        22: '#8B4513',  // SaddleBrown
+        23: '#B22222',  // FireBrick
+        24: '#FF6347',  // Tomato
+    
 };
 
 
-function ChartItem({route,ticker,options,YAxisFormatter}) {
+function ChartItem({route,ticker,options}) {
     const [price_data,setData] = useState(null)
     const [daysback,setDaysback] = useState(30)
     const [columns,setColumns] = useState([])
-    
 
 
 
     const get_specificData = (e) =>{
-        console.log(columns)
+        if(columns.length === 0){
+            alert("Please select at least one column")
+            setColumns([])
+            return
+        }   
         e.preventDefault();
         api.post(route,{ticker:ticker,daysback:daysback,column:columns})
         .then((res)=>res.data).then((data)=>setData(data));
     }
 
-    const format_item = (tick) => `$${tick.toLocaleString()}`
+    const format_item = (tick) => new Intl.NumberFormat('en-US', { notation: 'compact', compactDisplay: 'short' }).format(tick)
    
     const handleColums = (checked,val)=> {
         if(checked){
@@ -71,6 +90,9 @@ function ChartItem({route,ticker,options,YAxisFormatter}) {
     const chartData = price_data!==null ? transformData(price_data.data) : null
     const keys = price_data!==null ? Object.keys(chartData[0]).filter(key => key !== 'index') : null
     
+      
+
+
     return (
         <div className="p-3 bg-white rounded-3xl ">
             <div className="w-full">
@@ -95,12 +117,12 @@ function ChartItem({route,ticker,options,YAxisFormatter}) {
             </div>
 
              {price_data !== null ?
-            (
-            <ResponsiveContainer width="100%" height={400}>
+            (<div className="flex align-middle justify-center ">
+            <ResponsiveContainer width="95%" height={450}>
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="index" />
-              <YAxis tickFormatter={format_item}/>
+              <YAxis tickFormatter={format_item} />
               <Tooltip />
               <Legend />
               {keys.map((key, index) => (
@@ -108,7 +130,8 @@ function ChartItem({route,ticker,options,YAxisFormatter}) {
                 ))}
              
             </LineChart>
-            </ResponsiveContainer>):
+            </ResponsiveContainer>
+            </div>):
                 (<p className="text-xl pl-5">
                     Select the data you want visualised
                 </p>) 

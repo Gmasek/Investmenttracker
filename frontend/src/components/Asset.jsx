@@ -4,7 +4,7 @@ import api from "../api"
 
 import ChartItem from "./ChartItem";
 
-export default function Asset({asset,onDelete,basiccols,indicatorcols}) {
+export default function Asset({asset,onDelete,indicatorcols}) {
     const [currentPrice,setCurrentPrice] = useState(1)
 
     useEffect(()=>{
@@ -29,10 +29,6 @@ export default function Asset({asset,onDelete,basiccols,indicatorcols}) {
         <button className="bg-blue-300 hover:bg-red-500 rounded p-2 m-2" onClick={() => onDelete(asset.id)}>
              Remove asset
         </button>
-        <div className="mt-5">
-            
-            <ChartItem route={"api/getasset/"} ticker={asset.ticker} options={basiccols} />
-        </div>
         <div className="mt-5">
            <ChartItem route={"api/getindicators/"} ticker={asset.ticker} options={indicatorcols} />
         </div>

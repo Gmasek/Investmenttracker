@@ -3,28 +3,6 @@ import pandas as pd
 import numpy as np
 from datetime import datetime,timedelta
 
-def getSimplePricedata(ticker:str,columns:list,daysback=30)->list:
-    curr_date = datetime.now()
-    daysback = int(daysback)
-    window = daysback + ((daysback//7)*4) + (75 if "SMA50D" or "SMA20D" or "SMA5D" in columns else 0) #needed for moving avg-es
-    stock_data = yf.download(ticker,start=(curr_date-timedelta(window)),end=curr_date)
-    
-    stock_data["SMA5D"] = stock_data["Close"].rolling(5).mean()
-    stock_data["SMA20D"] = stock_data["Close"].rolling(20).mean()
-    stock_data["SMA50D"] = stock_data["Close"].rolling(50).mean()
-    stock_data["EMA5"] = stock_data['Close'].ewm(span=14, adjust=False).mean()
-    stock_data["EMA20"] = stock_data['Close'].ewm(span=14, adjust=False).mean()
-    stock_data["EMA50"] = stock_data['Close'].ewm(span=14, adjust=False).mean()
-    stock_data = stock_data[-daysback:]
-    
-    output = dict()
-    for col in columns:
-        output[col]=list(np.round(stock_data[col].dropna(),3))
-
-    return output
-
-def getSimplePriceColnames()->list:
-    return ["Open","Close","High","Low","SMA5D","SMA20D","SMA50D","EMA5","EMA20","EMA50"]
 
 def getCurrentPrice(ticker:str):
     stock = yf.Ticker(ticker)
@@ -33,10 +11,16 @@ def getCurrentPrice(ticker:str):
 def getIndicators(ticker:str,columns:list,daysback = 30,colnames=False)->list:
     curr_date = datetime.now()
     daysback = int(daysback)
-    window = daysback + ((daysback//7)*4) + 25
+    window = daysback + ((daysback//7)*4) + 75
+    
     df = yf.download(ticker,start=(curr_date-timedelta(window)),end=curr_date)
     df["Move_direct"]= (1-df['Open'] / df["Close"] )*100
-    
+    df["SMA5D"] = df["Close"].rolling(5).mean()
+    df["SMA20D"] = df["Close"].rolling(20).mean()
+    df["SMA50D"] = df["Close"].rolling(50).mean()
+    df["EMA5"] = df['Close'].ewm(span=14, adjust=False).mean()
+    df["EMA20"] = df['Close'].ewm(span=14, adjust=False).mean()
+    df["EMA50"] = df['Close'].ewm(span=14, adjust=False).mean()  
     df["OBV"]=np.where(df['Close'] > df['Close'].shift(1), df['Volume'], np.where(df['Close'] < df['Close'].shift(1), -df['Volume'], 0)).cumsum()
     df["TR"]=np.maximum(df["High"]-df["Low"],df["High"]-df["Close"].shift(1),df["Close"].shift(1)-df["Low"])
     df['ATR14'] = df["TR"].rolling(14).mean()
@@ -70,9 +54,10 @@ def getIndicators(ticker:str,columns:list,daysback = 30,colnames=False)->list:
     return output
 
 def getIndicatorColnames()->list:
-    return ["OBV","TR","ATR14","+DM","-DM","EMA14+","EMA14-","+DI14",
+    return ["Open","Close","High","Low","Volume","SMA5D","SMA20D","SMA50D","EMA5","EMA20","EMA50",
+        "OBV","TR","ATR14","+DM","-DM","EMA14+","EMA14-","+DI14",
             "-DI14","DI14","ADX14","ADXUT","ADXDT","StcOsc","MACD",
-            "MACD_signal","RSI","RSI_volume","Upper Band","Lower Band","Close"]
+            "MACD_signal","RSI","RSI_volume","Upper Band","Lower Band",]
     
 def calc_macd(data, len1,len2,len3):
     shortEMA = data.ewm(span = len1, adjust= False).mean()

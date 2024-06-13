@@ -8,14 +8,14 @@ function Home(){
     const [assets,setAssets] = useState([]);
     const [ticker,setTicker] = useState("")
     const [qty, setQty] = useState(0)
-    const [basiccols,setbasicCols] = useState([])
+    
     const [indicatorcols,setIndicatorcols] = useState([])
     const navigate = useNavigate();
 
     useEffect(()=>{
         getAssets();
         getIndicators();
-        getBasiccols();
+       
     },[])
     
     const getAssets =() =>{
@@ -31,12 +31,7 @@ function Home(){
         .then((data)=>setIndicatorcols(data.data))
         .catch((err)=>alert(err))
     }
-    const getBasiccols =()=>{
-        api.get("api/getbasiccols/")
-        .then((res)=>res.data)
-        .then((data)=>setbasicCols(data.data))
-        .catch((err)=>alert(err))
-    }
+    
     
     const deleteAsset = (id) =>{
         api.delete(`/api/assets/delete/${id}/`).then((res)=>
@@ -79,7 +74,7 @@ function Home(){
             </div>
             
             {assets.map((asset)=>(
-                <Asset asset={asset} onDelete={deleteAsset} basiccols={basiccols} indicatorcols={indicatorcols} key={asset.id} />)) 
+                <Asset asset={asset} onDelete={deleteAsset}  indicatorcols={indicatorcols} key={asset.id} />)) 
             }
             <h2 className="text-3xl text-center pt-5">Add Asset</h2>
             <form onSubmit={createAsset} className="flex flex-col items-center m-5 center-block p-6 content-center">

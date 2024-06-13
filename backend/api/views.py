@@ -4,7 +4,7 @@ from rest_framework import generics
 from .serializers import UserSerializer, AssetSerializer
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from .models import Asset
-from .helpers.get_datafromApi import getSimplePricedata ,getCurrentPrice , getIndicators , getSimplePriceColnames, getIndicatorColnames
+from .helpers.get_datafromApi import getCurrentPrice , getIndicators , getIndicatorColnames
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -34,23 +34,6 @@ class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
-    
-@csrf_exempt
-def returnPriceInfo(request):
-    if request.method == "POST":
-        try: 
-            request_data = json.loads(request.body)
-            asset_data = getSimplePricedata(ticker=request_data.get("ticker"),
-                                                 daysback=request_data.get("daysback"),
-                                                 columns=request_data.get("column"))
-            return JsonResponse({"data":asset_data},status = 200)
-    
-        except json.JSONDecodeError:
-            return JsonResponse({'error': 'Invalid JSON'}, status=400)
-        except KeyError:
-            return JsonResponse({'error': 'Missing input(s)'}, status=400)
-    else:
-        return JsonResponse({'error': 'Invalid request method'}, status=405)
     
 
 @csrf_exempt
@@ -86,12 +69,6 @@ def returnIndicators(request):
         return JsonResponse({'error': 'Invalid request method'}, status=405)
     
     
-@csrf_exempt
-def getBasicColumns(request):
-    if request.method == "GET":
-        return JsonResponse({"data":getSimplePriceColnames()},status = 200)
-    else:
-        return JsonResponse({'error': 'Invalid request method'}, status=405)
     
 def getIndicatorCols(request):
     if request.method == "GET":
